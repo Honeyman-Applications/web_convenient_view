@@ -1,0 +1,20 @@
+name: web_convenient_view
+description: For simplifying having a view be reloaded in a web browser when data needs to be passed
+version: 1.0.0
+homepage:
+
+environment:
+  sdk: '>=3.1.2 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+
