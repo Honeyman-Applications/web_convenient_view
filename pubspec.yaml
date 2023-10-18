@@ -1,6 +1,6 @@
 name: web_convenient_view
 description: For simplifying having a view be reloaded in a web browser when data needs to be passed
-version: 1.0.0
+version: 1.1.0
 homepage: https://github.com/Honeyman-Applications/web_convenient_view
 repository: https://github.com/Honeyman-Applications/web_convenient_view
 
