@@ -24,6 +24,16 @@ class WebConvenientView<T> extends StatefulWidget {
   /// what is shown just before the back route is navigated to.
   final Widget briefErrorDisplay;
 
+  /// if true makes use of [WillPopScope] to stop standard navigation then either
+  /// popAndPushNamed by default using the back route,or
+  /// runs onUseBackRouteOnNavigatorPop, which can be used for custom navigator functions
+  final bool useBackRouteOnNavigatorPop;
+
+  /// Runs when useBackRouteOnNavigatorPop is true. Used to perform custom
+  /// navigation actions when [WillPopScope] is triggered.
+  final void Function(String backRoute, Object? arguments, T? model)?
+      onUseBackRouteOnNavigatorPop;
+
   const WebConvenientView({
     super.key,
     this.model,
@@ -31,6 +41,8 @@ class WebConvenientView<T> extends StatefulWidget {
     required this.backRoute,
     this.backRouteArguments,
     this.briefErrorDisplay = const Scaffold(),
+    this.useBackRouteOnNavigatorPop = false,
+    this.onUseBackRouteOnNavigatorPop,
   });
 
   @override
@@ -63,6 +75,7 @@ class WebConvenientViewState<T> extends State<WebConvenientView<T>> {
         );
       });
     }
+
     super.didChangeDependencies();
   }
 
@@ -70,11 +83,35 @@ class WebConvenientViewState<T> extends State<WebConvenientView<T>> {
   // back route is navigated to
   @override
   Widget build(BuildContext context) {
-    print("run");
-    return _model != null
-        ? widget.onLoaded(
-            _model as T,
-          )
-        : widget.briefErrorDisplay;
+    return WillPopScope(
+      child: _model != null
+          ? widget.onLoaded(
+              _model as T,
+            )
+          : widget.briefErrorDisplay,
+      onWillPop: () async {
+        // use standard nav if useBackRouteOnNavigatorPop false
+        if (!widget.useBackRouteOnNavigatorPop) {
+          return true;
+        }
+
+        // use default or custom nav if specified
+        if (widget.onUseBackRouteOnNavigatorPop != null) {
+          widget.onUseBackRouteOnNavigatorPop!(
+            widget.backRoute,
+            widget.backRouteArguments,
+            widget.model,
+          );
+
+        } else {
+          Navigator.popAndPushNamed(
+            context,
+            widget.backRoute,
+            arguments: widget.backRouteArguments,
+          );
+        }
+        return false;
+      },
+    );
   }
 }
