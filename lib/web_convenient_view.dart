@@ -31,7 +31,7 @@ class WebConvenientView<T> extends StatefulWidget {
 
   /// Runs when useBackRouteOnNavigatorPop is true. Used to perform custom
   /// navigation actions when [WillPopScope] is triggered.
-  final void Function(String backRoute, Object? arguments, T? model)?
+  final void Function(String backRoute, Object? arguments, T? model, BuildContext context)?
       onUseBackRouteOnNavigatorPop;
 
   const WebConvenientView({
@@ -101,6 +101,7 @@ class WebConvenientViewState<T> extends State<WebConvenientView<T>> {
             widget.backRoute,
             widget.backRouteArguments,
             widget.model,
+            context,
           );
 
         } else {

@@ -1,3 +1,10 @@
+# CHANGELOG
+
+## 1.1.1
+
+- added build context to ```onUseBackRouteOnNavigatorPop```
+    - needed for custom navigation
+
 ## 1.1.0
 
 - Added ```useBackRouteOnNavigatorPop```
